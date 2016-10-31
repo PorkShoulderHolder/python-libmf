@@ -3,12 +3,12 @@ import ctypes
 import os
 import sys
 
-compiled_src_location = os.environ["LIBMF_OBJ"] if "LIBMF_OBJ" in os.environ else sys.argv[1] if len(sys.argv) > 1 else \
-    "libmf.so"
-mf = ctypes.CDLL(compiled_src_location)
+compiled_src = os.environ["LIBMF_OBJ"] if "LIBMF_OBJ" in os.environ else sys.argv[1] if len(sys.argv) > 1 else \
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "../python-libmf.so"
+mf = ctypes.CDLL(compiled_src)
 c_float_p = ctypes.POINTER(ctypes.c_float)
 
-# libmf enums
+''' libmf enums '''
 
 P_L2_MFR = 0
 P_L1_MFR = 1
@@ -29,6 +29,7 @@ COL_MPR = 11
 ROW_AUC = 12
 COL_AUC = 13
 
+''' libmf enums '''
 
 def get_default_options():
     options = [
