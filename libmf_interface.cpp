@@ -77,10 +77,6 @@ extern "C" mf::mf_model* fit_interface(const int nnx, float *X, mf::mf_parameter
 mf::mf_model* fit_interface(const int nnx, float *X, mf::mf_parameter *param)
 #endif
 {
-    std::cout << param->quiet << " " << param->nr_bins << std::endl;
-    std::cout << param->nr_threads << " " << param->nr_iters << std::endl;
-    std::cout << param->quiet << " " << param->copy_data << std::endl;
-
     mf::mf_problem prob = prob_from_sparse(nnx, X);
     mf::mf_model *out = mf::mf_train(&prob, *param);
     return out;

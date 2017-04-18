@@ -186,7 +186,6 @@ mf_int Scheduler::get_bpr_job(mf_int first_block, bool is_column_oriented)
 
     for(auto &block : locked_blocks)
         pq.push(block);
-
     return another;
 }
 

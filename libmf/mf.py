@@ -31,6 +31,7 @@ COL_AUC = 13
 
 ''' libmf enums '''
 
+
 def get_default_options():
     options = [
         ("fun", ctypes.c_int, P_L2_MFR),
@@ -62,7 +63,6 @@ class MFModel(ctypes.Structure):
 
 class MFParam(ctypes.Structure):
     _fields_ = [(o[0], o[1]) for o in get_default_options()]
-
 
 options_ptr = ctypes.POINTER(MFParam)
 
@@ -142,7 +142,6 @@ class MF(object):
 
     def mf_cross_validation(self, X, folds=5):
         """
-
         :param X: (n, 3)
         :param folds: number of train / test splits
         :return: average score across all folds
@@ -167,11 +166,11 @@ class MF(object):
 
         test_p = V.astype(np.float32)
         test_p = test_p.ctypes.data_as(c_float_p)
+
         mf.train_valid_interface.restype = ctypes.POINTER(MFModel)
         mf.train_valid_interface.argtypes = (ctypes.c_int, ctypes.c_int, c_float_p, c_float_p, options_ptr)
         out = mf.train_valid_interface(nnx, nnx_valid, train_p, test_p, self._options)
-        model = out.contents
-        return model
+        self.model = out.contents
 
 
 def ensure_width(x, width):
@@ -179,10 +178,9 @@ def ensure_width(x, width):
         raise ValueError("must be sparse array of shape (n, {0})", width)
 
 
-def __generate_test_data(xs, ys, k):
+def __generate_test_data(xs, ys, k, indices_only=False):
     rx = np.random.random_integers(0, xs, k)
     ry = np.random.random_integers(0, ys, k)
     rv = np.random.rand(k)
-    return np.vstack((rx, ry, rv)).transpose()
-
+    return np.vstack((rx, ry, rv)).transpose() if not indices_only else np.vstack((rx,ry)).transpose()
 
