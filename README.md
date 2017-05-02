@@ -1,6 +1,6 @@
 ## compile libmf interface object files
 
-You just need a standard c++ compiler 
+You just need a standard c++ compiler
 ```
 $ g++ --std=c++11 *.cpp -shared -o python-libmf.so
 ```
@@ -25,3 +25,8 @@ if these work then you are good to go!
 `data.shape => (x, 3)` where x is the number of observations
 
 `ind` is a sparse numpy array of indices specifying where we want to predict unobserved values
+
+## for mac os 10.12
+```
+export MACOSX_DEPLOYMENT_TARGET=10.12
+```

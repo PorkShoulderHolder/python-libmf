@@ -2,9 +2,9 @@ import numpy as np
 import ctypes
 import os
 import sys
+from . import lib_path
 
-compiled_src = os.environ["LIBMF_OBJ"] if "LIBMF_OBJ" in os.environ else sys.argv[1] if len(sys.argv) > 1 else \
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/python-libmf.so"
+compiled_src = lib_path.find_lib_path()
 mf = ctypes.CDLL(compiled_src)
 c_float_p = ctypes.POINTER(ctypes.c_float)
 
@@ -73,7 +73,7 @@ class MF(object):
         self._options = MFParam()
         for kw in kwargs:
             if kw not in [i[0] for i in get_default_options()]:
-                print "Unrecognized keyword argument '{0}={1}'".format(kw, kwargs[kw])
+                print("Unrecognized keyword argument '{0}={1}'".format(kw, kwargs[kw]))
 
         for item in get_default_options():
             if item[0] not in kwargs:
@@ -183,4 +183,3 @@ def __generate_test_data(xs, ys, k, indices_only=False):
     ry = np.random.random_integers(0, ys, k)
     rv = np.random.rand(k)
     return np.vstack((rx, ry, rv)).transpose() if not indices_only else np.vstack((rx,ry)).transpose()
-
