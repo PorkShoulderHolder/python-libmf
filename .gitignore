@@ -3,4 +3,5 @@ venv
 build
 *.so
 *.pyc
-
+.pypirc
+venv

@@ -4,7 +4,7 @@ import os
 import sys
 
 compiled_src = os.environ["LIBMF_OBJ"] if "LIBMF_OBJ" in os.environ else sys.argv[1] if len(sys.argv) > 1 else \
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/python-libmf.so"
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/libmf.so"
 mf = ctypes.CDLL(compiled_src)
 c_float_p = ctypes.POINTER(ctypes.c_float)
 
@@ -178,7 +178,7 @@ def ensure_width(x, width):
         raise ValueError("must be sparse array of shape (n, {0})", width)
 
 
-def __generate_test_data(xs, ys, k, indices_only=False):
+def generate_test_data(xs, ys, k, indices_only=False):
     rx = np.random.random_integers(0, xs, k)
     ry = np.random.random_integers(0, ys, k)
     rv = np.random.rand(k)
