@@ -22,7 +22,7 @@ Make sure you know where this file is, because mf.py needs to reference it.
 
 After compilation try running:
 ```
-$ python mf_tests.py
+$ python tests/mf_tests.py
 ```
 
 if these work then you are good to go!
