@@ -1,8 +1,22 @@
-## compile libmf interface object files
-
-You just need a standard c++ compiler 
+## install with pip
+Easiest
 ```
-$ g++ --std=c++11 *.cpp -shared -o python-libmf.so
+pip install libmf
+```
+
+## install with setup.py
+Easiest
+```
+python setup.py install
+```
+
+## compile from source
+
+Still easy, you just need a standard c++ compiler, and you need to make sure that your mf.py file can find the libmf.so
+ file
+```
+$ cd python-libmf
+$ g++ --std=c++11 src/*.cpp -shared -o libmf.so
 ```
 
 That should create a python-libmf.so file which mf.py will use to interface with libmf.
