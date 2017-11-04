@@ -3,12 +3,12 @@
 pip install libmf
 ```
 
-### Or install with setup.py
+#### Or install with setup.py
 ```
 python setup.py install
 ```
 
-### Or compile from source
+#### Or compile from source
 
 Still easy, you just need a standard c++ compiler, and you need to make sure that your mf.py file can find the libmf.so
  file
