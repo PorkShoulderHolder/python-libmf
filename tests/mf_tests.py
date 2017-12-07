@@ -1,3 +1,5 @@
+import libmf
+print libmf.__file__
 from libmf import mf
 from unittest import TestCase, main
 import math
