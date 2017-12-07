@@ -129,5 +129,26 @@ float* pred_model_interface(const int nnx,
 }
 
 
+#ifdef __cplusplus
+extern "C" float* get_P(float *out, mf::mf_model *model)
+#else
+float* get_P(float *out, mf::mf_model *model)
+#endif
+{
+    out = model->P;
+    return out;
+}
+
+#ifdef __cplusplus
+extern "C" float* get_Q(float *out, mf::mf_model *model)
+#else
+float* get_Q(float *out, mf::mf_model *model)
+#endif
+{
+    out = model->Q;
+    return out;
+}
+
+
 
     

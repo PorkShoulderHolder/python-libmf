@@ -71,6 +71,8 @@ class MF(object):
     def __init__(self, *args, **kwargs):
         self.model = None
         self._options = MFParam()
+        self.i = None
+        self.j = None
         for kw in kwargs:
             if kw not in [i[0] for i in get_default_options()]:
                 print "Unrecognized keyword argument '{0}={1}'".format(kw, kwargs[kw])
@@ -108,7 +110,7 @@ class MF(object):
             elif item[0] is "copy_data":
                 self._options.copy_data = ctypes.c_bool(value)
 
-    def mf_predict(self, X):
+    def predict(self, X):
         """
         assuming we have already run the fit method, predict the values at certain indices of the data matrix
         :param X: (n, 2) shaped numpy array
@@ -126,7 +128,7 @@ class MF(object):
         mf.pred_model_interface(nnx_p, X_p, ctypes.c_void_p(out.ctypes.data), ctypes.byref(self.model))
         return out
 
-    def mf_fit(self, X):
+    def fit(self, X):
         """
         factorize the i x j data matrix X into (j, k) (k, i) sized matrices stored in MF.model
         :param X: (n, 3) shaped numpy array [known index and values of the data matrix]
@@ -171,6 +173,22 @@ class MF(object):
         mf.train_valid_interface.argtypes = (ctypes.c_int, ctypes.c_int, c_float_p, c_float_p, options_ptr)
         out = mf.train_valid_interface(nnx, nnx_valid, train_p, test_p, self._options)
         self.model = out.contents
+
+    def q_factors(self):
+        if self.model is None:
+            return LookupError("no model data is saved, try running model.mf_fit(...) first")
+        out = np.zeros(self.model.k * self.model.m)
+        out = out.astype(np.float32)
+        mf.get_Q(ctypes.c_void_p(out.ctypes.data), ctypes.byref(self.model))
+        return out
+
+    def p_factors(self):
+        if self.model is None:
+            return LookupError("no model data is saved, try running model.mf_fit(...) first")
+        out = np.zeros(self.model.k * self.model.n)
+        out = out.astype(np.float32)
+        mf.get_P(ctypes.c_void_p(out.ctypes.data), ctypes.byref(self.model))
+        return out
 
 
 def ensure_width(x, width):
