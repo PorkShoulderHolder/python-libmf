@@ -26,9 +26,9 @@ mf::mf_problem prob_from_sparse(const int nnx, float *X){
     for(i=0; i < prob.nnz; i++){
         mf::mf_node N;
         
-        N.u = (int)X[i];
-        N.v = (int)X[i + 1 * prob.nnz];
-        N.r = X[i + 2 * prob.nnz];
+        N.u = (int)X[i * 3];
+        N.v = (int)X[i * 3 + 1];
+        N.r = X[i * 3 + 2];
         if(N.u+1 > prob.m)
             prob.m = N.u+1;
         if(N.v+1 > prob.n)

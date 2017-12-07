@@ -182,5 +182,5 @@ def generate_test_data(xs, ys, k, indices_only=False):
     rx = np.random.random_integers(0, xs, k)
     ry = np.random.random_integers(0, ys, k)
     rv = np.random.rand(k)
-    return np.vstack((rx, ry, rv)).transpose() if not indices_only else np.vstack((rx,ry)).transpose()
+    return np.vstack((rx, ry, rv)).transpose().copy() if not indices_only else np.vstack((rx,ry)).transpose().copy()
 
