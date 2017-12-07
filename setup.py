@@ -10,7 +10,7 @@ def gen_test_suite():
 
 setup(name='libmf',
       packages=['libmf'],
-      version='0.5',
+      version='0.6',
       test_suite='setup.gen_test_suite',
       description='python bindings to libmf',
       author='Sam Fox Royston (bindings), Chih-Jen Lin (c++ source)',
