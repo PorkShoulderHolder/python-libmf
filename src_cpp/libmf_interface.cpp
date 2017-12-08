@@ -135,7 +135,12 @@ extern "C" float* get_P(float *out, mf::mf_model *model)
 float* get_P(float *out, mf::mf_model *model)
 #endif
 {
-    out = model->P;
+    for (int i = 0; i < model->m; i++){
+        for(int j = 0; j < model->k; j++){
+            int idx = i * model->k + j;
+            out[idx] = model->P[idx];
+        }
+    }
     return out;
 }
 
@@ -145,7 +150,12 @@ extern "C" float* get_Q(float *out, mf::mf_model *model)
 float* get_Q(float *out, mf::mf_model *model)
 #endif
 {
-    out = model->Q;
+    for (int i = 0; i < model->n; i++){
+        for(int j = 0; j < model->k; j++){
+            int idx = i * model->k + j;
+            out[idx] = model->Q[idx];
+        }
+    }
     return out;
 }
 

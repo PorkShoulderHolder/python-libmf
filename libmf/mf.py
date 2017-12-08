@@ -39,10 +39,10 @@ def get_default_options():
         ("nr_threads", ctypes.c_int, 12),
         ("nr_bins", ctypes.c_int, 26),
         ("nr_iters", ctypes.c_int, 20),
-        ("lambda_p1", ctypes.c_float, 0.0),
-        ("lambda_p2", ctypes.c_float, 0.1),
-        ("lambda_q1", ctypes.c_float, 0.0),
-        ("lambda_q2", ctypes.c_float, 0.1),
+        ("lambda_p1", ctypes.c_float, 0.04),
+        ("lambda_p2", ctypes.c_float, 0.0),
+        ("lambda_q1", ctypes.c_float, 0.04),
+        ("lambda_q2", ctypes.c_float, 0.0),
         ("eta", ctypes.c_float, 0.1),
         ("do_nmf", ctypes.c_bool, False),
         ("quiet", ctypes.c_bool, False),
@@ -177,18 +177,18 @@ class MF(object):
     def q_factors(self):
         if self.model is None:
             return LookupError("no model data is saved, try running model.mf_fit(...) first")
-        out = np.zeros(self.model.k * self.model.m)
+        out = np.zeros(self.model.n * self.model.k)
         out = out.astype(np.float32)
         mf.get_Q(ctypes.c_void_p(out.ctypes.data), ctypes.byref(self.model))
-        return out
+        return out.reshape((self.model.n, self.model.k))
 
     def p_factors(self):
         if self.model is None:
             return LookupError("no model data is saved, try running model.mf_fit(...) first")
-        out = np.zeros(self.model.k * self.model.n)
+        out = np.zeros(self.model.m * self.model.k)
         out = out.astype(np.float32)
         mf.get_P(ctypes.c_void_p(out.ctypes.data), ctypes.byref(self.model))
-        return out
+        return out.reshape((self.model.m, self.model.k))
 
 
 def ensure_width(x, width):
