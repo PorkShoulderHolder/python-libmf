@@ -30,14 +30,14 @@ class TestMF(TestCase):
         TestMF.mf_engine.mf_cross_validation(val_data)
 
     def test_factorq(self):
-        print "factor-q"
-        for r in TestMF.mf_engine.q_factors().tolist():
-            print r
+        print "testing factor-q"
+        q = TestMF.mf_engine.q_factors()
+        self.assertEqual(q.shape, (TestMF.mf_engine.model.n, TestMF.mf_engine.model.k))
 
     def test_factorp(self):
-        print "factor-p"
-        for r in TestMF.mf_engine.p_factors().tolist():
-            print r
+        print "testing factor-p"
+        p = TestMF.mf_engine.p_factors()
+        self.assertEqual(p.shape, (TestMF.mf_engine.model.m, TestMF.mf_engine.model.k))
 
 
 if __name__ == '__main__':
