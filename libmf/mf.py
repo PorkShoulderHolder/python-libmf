@@ -3,8 +3,24 @@ import ctypes
 import os
 import sys
 
-compiled_src = os.environ["LIBMF_OBJ"] if "LIBMF_OBJ" in os.environ else sys.argv[1] if len(sys.argv) > 1 else \
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/libmf.so"
+if "LIBMF_OBJ" in os.environ:
+    print("Using compiled .so file specified in LIBMF_OBJ:")
+    compiled_src = os.environ["LIBMF_OBJ"]
+elif len(sys.argv) > 1:
+    print("Using 1st argument as .so file path:")
+    compiled_src = sys.argv[1]
+else:
+    site_pkgs = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+    print("Using file found in {}:".format(site_pkgs))
+    possible_objs = os.listdir(site_pkgs)
+    filtered = [f for f in possible_objs if f[-3:] == '.so' and 'libmf' in f]
+    if len(filtered) > 0:
+        compiled_src = os.path.join(site_pkgs, filtered[0])
+    else:
+        raise IOError("Compiled .so file not found. If you know where it is, " 
+		      "specify the path in the LIBMF_OBJ environment variable")
+ 
+print(compiled_src)
 mf = ctypes.CDLL(compiled_src)
 c_float_p = ctypes.POINTER(ctypes.c_float)
 
@@ -75,7 +91,7 @@ class MF(object):
         self.j = None
         for kw in kwargs:
             if kw not in [i[0] for i in get_default_options()]:
-                print "Unrecognized keyword argument '{0}={1}'".format(kw, kwargs[kw])
+                print("Unrecognized keyword argument '{0}={1}'".format(kw, kwargs[kw]))
 
         for item in get_default_options():
             if item[0] not in kwargs:
