@@ -6,9 +6,6 @@ import sys
 if "LIBMF_OBJ" in os.environ:
     print("Using compiled .so file specified in LIBMF_OBJ:")
     compiled_src = os.environ["LIBMF_OBJ"]
-elif len(sys.argv) > 1:
-    print("Using 1st argument as .so file path:")
-    compiled_src = sys.argv[1]
 else:
     site_pkgs = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
     print("Using file found in {}:".format(site_pkgs))
