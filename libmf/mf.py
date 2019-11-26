@@ -75,7 +75,7 @@ class MF(object):
         self.j = None
         for kw in kwargs:
             if kw not in [i[0] for i in get_default_options()]:
-                print "Unrecognized keyword argument '{0}={1}'".format(kw, kwargs[kw])
+                print("Unrecognized keyword argument '{0}={1}'".format(kw, kwargs[kw]))
 
         for item in get_default_options():
             if item[0] not in kwargs:
