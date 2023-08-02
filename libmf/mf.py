@@ -148,6 +148,8 @@ class MF(object):
         """
         ensure_width(X, 3)
         d = X.astype(np.float32)
+        if not d.flags["C_CONTIGUOUS"]:
+            d = np.ascontiguousarray(d)
         data_p = d.ctypes.data_as(c_float_p)
         nnx = ctypes.c_int(X.shape[0])
         mf.fit_interface.restype = ctypes.POINTER(MFModel)
@@ -163,6 +165,8 @@ class MF(object):
         """
         ensure_width(X, 3)
         d = X.astype(np.float32)
+        if not d.flags["C_CONTIGUOUS"]:
+            d = np.ascontiguousarray(d)
         data_p = d.ctypes.data_as(c_float_p)
         nnx = ctypes.c_int(X.shape[0])
         mf.cross_valid_interface.restype = ctypes.c_double
@@ -177,9 +181,13 @@ class MF(object):
         nnx_valid = ctypes.c_int(V.shape[0])
 
         train_p = X.astype(np.float32)
+        if not train_p.flags["C_CONTIGUOUS"]:
+            train_p = np.ascontiguousarray(train_p)
         train_p = train_p.ctypes.data_as(c_float_p)
 
         test_p = V.astype(np.float32)
+        if not test_p.flags["C_CONTIGUOUS"]:
+            test_p = np.ascontiguousarray(test_p)
         test_p = test_p.ctypes.data_as(c_float_p)
 
         mf.train_valid_interface.restype = ctypes.POINTER(MFModel)
